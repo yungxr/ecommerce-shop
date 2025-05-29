@@ -38,6 +38,12 @@ class User extends Authenticatable
     /**
      * Игры в корзине пользователя
      */
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
     public function cartItems()
     {
         return $this->hasMany(CartItem::class);

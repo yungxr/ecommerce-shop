@@ -42,3 +42,13 @@ Route::get('/library/{game}', [App\Http\Controllers\LibraryController::class, 's
 // Библиотека
 Route::get('/library', [App\Http\Controllers\LibraryController::class, 'index'])->name('library.index');
 Route::get('/library/game/{game}', [App\Http\Controllers\LibraryController::class, 'show'])->name('library.show');
+
+Route::middleware(['auth'])->group(function () {
+    // ... другие маршруты ...
+    Route::get('/balance/topup', [App\Http\Controllers\BalanceController::class, 'showTopupForm'])->name('balance.topup');
+    Route::post('/balance/topup', [App\Http\Controllers\BalanceController::class, 'topup'])->name('balance.topup.submit');
+});
+
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+    Route::resource('games', App\Http\Controllers\Admin\GameController::class);
+});

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,137 +32,182 @@
             background-position: center;
         }
 
-        .login-container {
-            width: 100%;
-            max-width: 400px;
+        /* Auth Container */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #1e272e;
             padding: 20px;
         }
 
-        .login-box {
-            background-color: rgba(26, 26, 46, 0.9);
+        .auth-box {
+            width: 100%;
+            max-width: 450px;
+            background: #2d3436;
             border-radius: 8px;
             padding: 40px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.5s ease;
         }
 
-        .login-header {
+        .auth-header {
             text-align: center;
             margin-bottom: 30px;
         }
 
+        .auth-header h1 {
+            color: #6c5ce7;
+            font-size: 1.8rem;
+            margin-top: 15px;
+        }
+
         .logo {
             display: flex;
-            justify-content: center;
             align-items: center;
-            margin-bottom: 20px;
+            justify-content: center;
+            gap: 10px;
         }
 
         .logo-icon {
-            font-size: 32px;
-            margin-right: 10px;
+            font-size: 2rem;
         }
 
         .logo-text {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary-color);
+            color: #fff;
+            font-size: 1.8rem;
+            font-weight: bold;
+            letter-spacing: 1px;
         }
 
-        .login-header h1 {
-            font-size: 20px;
-            font-weight: 400;
+        /* Form Styles */
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
-        .login-form .form-group {
-            margin-bottom: 20px;
+        .form-group {
+            position: relative;
+            margin-bottom: 10px;
         }
 
-        .login-form .form-control {
+        .form-group input {
             width: 100%;
-            padding: 12px 15px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
-            color: white;
-            font-size: 14px;
+            padding: 15px 0 5px 0;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid #4b4b4b;
+            color: #fff;
+            font-size: 1rem;
             transition: all 0.3s;
         }
 
-        .login-form .form-control:focus {
+        .form-group input:focus {
             outline: none;
-            border-color: var(--primary-color);
-            background-color: rgba(255, 255, 255, 0.2);
+            border-color: #6c5ce7;
         }
 
-        .login-form .form-control::placeholder {
-            color: rgba(255, 255, 255, 0.6);
+        .form-group label {
+            position: absolute;
+            top: 15px;
+            left: 0;
+            color: #b2b2b2;
+            pointer-events: none;
+            transition: all 0.3s;
         }
 
-        .login-button {
+        .form-group input:focus+label,
+        .form-group input:not(:placeholder-shown)+label {
+            top: 0;
+            font-size: 0.8rem;
+            color: #6c5ce7;
+        }
+
+        .input-border {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #6c5ce7;
+            transition: width 0.3s;
+        }
+
+        .form-group input:focus~.input-border {
             width: 100%;
-            padding: 12px;
-            background-color: var(--primary-color);
+        }
+
+        /* Button Styles */
+        .auth-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            background: #6c5ce7;
             color: white;
             border: none;
             border-radius: 4px;
-            font-size: 16px;
-            font-weight: 500;
+            font-size: 1rem;
             cursor: pointer;
-            transition: background-color 0.3s;
-            margin-bottom: 15px;
+            margin-top: 20px;
+            transition: all 0.3s;
         }
 
-        .login-button:hover {
-            background-color: #5649c0;
+        .auth-btn:hover {
+            background: #5649c0;
+            transform: translateY(-2px);
         }
 
-        .forgot-password {
-            display: block;
+        .btn-text {
+            flex-grow: 1;
             text-align: center;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 14px;
+        }
+
+        .auth-btn i {
+            transition: transform 0.3s;
+        }
+
+        .auth-btn:hover i {
+            transform: translateX(3px);
+        }
+
+        /* Login Link */
+        .auth-link {
+            text-align: center;
+            color: #b2b2b2;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        .auth-link a {
+            color: #6c5ce7;
             text-decoration: none;
-            margin-bottom: 20px;
             transition: color 0.3s;
         }
 
-        .forgot-password:hover {
-            color: white;
-        }
-
-        .register-link {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 14px;
-        }
-
-        .register-link a {
-            color: var(--primary-color);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .register-link a:hover {
+        .auth-link a:hover {
             color: #a29bfe;
         }
 
-        .remember {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
 
-        .form-check-input {
-            margin-right: 10px;
-        }
-
-        .form-check-label {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.8);
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
+
 <body>
     @yield('content')
 </body>
+
 </html>

@@ -18,6 +18,23 @@ class OrderController extends Controller
             return redirect()->route('cart.index')->with('error', 'Корзина пуста');
         }
 
+        // Рассчитываем общую сумму
+        $totalPrice = $cartItems->sum(function ($item) {
+            return $item->game->price;
+        });
+
+        // Проверяем баланс
+        if ($user->balance < $totalPrice) {
+            return redirect()->route('cart.index')->with('error', 'Недостаточно средств на балансе!');
+        }
+
+        // Списываем деньги
+        $user->decrement('balance', $totalPrice);
+
+        foreach ($cartItems as $item) {
+            // Добавляем игру в библиотеку
+            $user->libraryItems()->firstOrCreate(['game_id' => $item->game_id]);
+
     foreach ($cartItems as $item) {
         // Добавляем игру в библиотеку
         $user->libraryItems()->firstOrCreate(['game_id' => $item->game_id]);
@@ -53,4 +70,5 @@ class OrderController extends Controller
 
         return redirect()->route('library.index')->with('success', 'Покупка успешно оформлена!');
     }
+}
 }

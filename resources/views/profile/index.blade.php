@@ -19,14 +19,16 @@
                 <div class="stat">
                     <span class="stat-value">{{ $user->balance }}</span>
                     <span class="stat-label">Баланс</span>
+                    <a href="{{ route('balance.topup') }}" class="btn-topup"
+                        style="margin-left: 5px; padding: 3px 8px; 
+                  background: #2196F3; color: white; border-radius: 4px; 
+                  font-size: 12px; text-decoration: none;">
+                        <i class="fas fa-plus"></i> Пополнить
+                    </a>
                 </div>
                 <div class="stat">
                     <span class="stat-value">{{ $user->libraryGames()->count() }}</span>
                     <span class="stat-label">Игр</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-value">0</span>
-                    <span class="stat-label">Друзей</span>
                 </div>
             </div>
         </div>

@@ -10,6 +10,13 @@
             <a href="{{ route('shop.index') }}" class="btn-continue">Продолжить покупки</a>
         </div>
     @else
+        {{-- Блок для ошибок (например, "Недостаточно средств") --}}
+        @if(session('error'))
+            <div class="alert alert-danger" style="color: #721c24; background-color: #f8d7da; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <div class="cart-items">
             @foreach($cartItems as $item)
             <div class="cart-item">
@@ -32,6 +39,14 @@
                 <span>Итого:</span>
                 <span class="total-price">{{ number_format($total, 2, '.', ' ') }} руб.</span>
             </div>
+            
+            {{-- Дублируем ошибку здесь (если нужно) --}}
+            @if(session('error'))
+                <div class="alert alert-danger" style="color: #721c24; background-color: #f8d7da; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+                    {{ session('error') }}
+                </div>
+            @endif
+
             <form action="{{ route('order.checkout') }}" method="POST">
                 @csrf
                 <button type="submit" class="btn-checkout">Оформить заказ</button>

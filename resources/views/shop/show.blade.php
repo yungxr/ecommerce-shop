@@ -9,7 +9,7 @@
             </div>
             <div class="screenshots">
                 @foreach(json_decode($game->screenshots) as $screenshot)
-                    <img src="{{ asset('images/games/screenshots/' . $screenshot) }}" alt="Скриншот">
+                <img src="{{ asset('images/games/screenshots/' . $screenshot) }}" alt="Скриншот">
                 @endforeach
             </div>
         </div>
@@ -23,9 +23,10 @@
             </div>
 
             <div class="price-block">
-                <span class="price">{{ number_format($game->price, 2, '.', ' ') }} руб.</span>
-                <button class="btn-buy">Купить сейчас</button>
-                <button class="btn-wishlist">В список желаемого</button>
+                <form action="{{ route('cart.add', $game) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn-buy">В корзину</button>
+                </form>
             </div>
 
             <div class="description">
