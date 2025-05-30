@@ -36,14 +36,18 @@
                     <span class="game-genre">{{ $game->genre }}</span>
                 </div>
             </a>
-            <form action="{{ route('cart.add', $game) }}" method="POST">
-                @csrf
-                <button type="submit" class="btn-buy">В корзину</button>
-            </form>
+
+            <div class="game-actions">
+
+                <form action="{{ route('cart.add', $game) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn-buy">В корзину</button>
+                </form>
+            </div>
         </div>
         @endforeach
     </div>
 
-    {{ $games->links() }}
+    
 </div>
 @endsection

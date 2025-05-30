@@ -25,7 +25,7 @@ return new class extends Migration
             $table->enum('role', ['user', 'admin'])->default('user');
             $table->rememberToken();
             $table->timestamps();
-            $table->softDeletes(); // Добавляем мягкое удаление
+            $table->softDeletes();
         });
 
         // Добавляем индекс для часто используемых полей

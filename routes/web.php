@@ -49,6 +49,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/balance/topup', [App\Http\Controllers\BalanceController::class, 'topup'])->name('balance.topup.submit');
 });
 
-Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
-    Route::resource('games', App\Http\Controllers\Admin\GameController::class);
-});
+Route::post('/games', [App\Http\Controllers\GameController::class, 'store'])->name('games.store');
+Route::put('/games/{game}', [App\Http\Controllers\GameController::class, 'update'])->name('games.update');
+Route::delete('/games/{game}', [App\Http\Controllers\GameController::class, 'destroy'])->name('games.destroy');

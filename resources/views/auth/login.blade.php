@@ -31,7 +31,7 @@
         </button>
 
         <div class="auth-link">
-            Еще не зарегистрированы? <a href="{{ route('register') }}">Войти</a>
+            Еще не зарегистрированы? <a href="{{ route('register') }}">Зарегистрироваться</a>
         </div>
     </form>
 </div>
