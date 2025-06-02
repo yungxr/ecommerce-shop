@@ -1376,3 +1376,8 @@ textarea {
 .btn-delete { background: #f44336; color: white; }
 .btn-submit { background: #6c5ce7; color: white; padding: 10px 20px; }
 
+.text-col {
+    color: #fff;
+    padding: 20px 0px;
+}
+

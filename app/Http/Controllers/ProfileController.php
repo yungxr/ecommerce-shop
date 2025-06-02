@@ -69,7 +69,7 @@ class ProfileController extends Controller
         return redirect()->route('profile')->with('success', 'Пароль успешно изменен!');
     }
 
-    // Добавлен метод для магазина
+    // Метод для магазина
     public function shop()
     {
         $games = Game::all(); // Получаем все игры из базы

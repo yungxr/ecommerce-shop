@@ -38,9 +38,11 @@
 
         <div class="form-group">
             <label>Текущие скриншоты:</label>
-            @foreach(json_decode($game->screenshots) as $screenshot)
+            @if($game->screenshots)
+            @foreach(json_decode($game->screenshots, true) as $screenshot)
             <img src="{{ asset('images/games/screenshots/' . $screenshot) }}" width="100">
             @endforeach
+            @endif
             <label>Новые скриншоты (можно несколько)</label>
             <input type="file" name="screenshots[]" multiple accept="image/*">
         </div>

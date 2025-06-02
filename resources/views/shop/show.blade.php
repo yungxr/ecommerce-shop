@@ -8,9 +8,13 @@
                 <img src="{{ asset('images/games/' . $game->image) }}" alt="{{ $game->title }}">
             </div>
             <div class="screenshots">
-                @foreach(json_decode($game->screenshots) as $screenshot)
+                @if($game->screenshots)
+                @foreach(json_decode($game->screenshots, true) as $screenshot)
                 <img src="{{ asset('images/games/screenshots/' . $screenshot) }}" alt="Скриншот">
                 @endforeach
+                @else
+                <p>Скриншотов нет</p>
+                @endif
             </div>
         </div>
 

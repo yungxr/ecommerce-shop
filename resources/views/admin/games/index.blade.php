@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="admin-container">
-    <h1>Управление играми</h1>
+    <h1 class="text-col">Управление играми</h1>
     
     <div class="admin-actions">
         <a href="{{ route('admin.games.create') }}" class="btn-add">Добавить игру</a>
