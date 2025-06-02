@@ -24,4 +24,9 @@ class Game extends Model
         'screenshots' => 'array',
         'release_date' => 'date'
     ];
+
+    public function libraryItems()
+    {
+        return $this->hasMany(LibraryItem::class);
+    }
 }

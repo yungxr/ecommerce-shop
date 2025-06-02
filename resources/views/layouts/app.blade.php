@@ -23,6 +23,13 @@
                     <a href="/" class="nav__link active">Главная</a>
                     <a href="/shop" class="nav__link">Магазин</a>
                     <a href="/library" class="nav__link">Библиотека</a>
+                    
+                    @auth
+                        @if(auth()->user()->role === 'admin')
+                            <a href="{{ route('admin.games.index') }}" class="nav__link">Админ-панель</a>
+                        @endif
+                    @endauth
+                    
                     <a href="{{ route('cart.index') }}" class="cart-link">
                         <i class="fas fa-shopping-cart"></i>
                         @auth

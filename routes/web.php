@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminGameController;
+use App\Http\Middleware\AdminMiddleware;
 
 // Маршруты аутентификации (должны быть первыми)
 Auth::routes();
@@ -49,6 +51,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/balance/topup', [App\Http\Controllers\BalanceController::class, 'topup'])->name('balance.topup.submit');
 });
 
-Route::post('/games', [App\Http\Controllers\GameController::class, 'store'])->name('games.store');
-Route::put('/games/{game}', [App\Http\Controllers\GameController::class, 'update'])->name('games.update');
-Route::delete('/games/{game}', [App\Http\Controllers\GameController::class, 'destroy'])->name('games.destroy');
+// Админ-роуты
+Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->group(function () {
+    Route::get('/games', [App\Http\Controllers\AdminGameController::class, 'index'])->name('admin.games.index');
+    Route::get('/games/create', [App\Http\Controllers\AdminGameController::class, 'create'])->name('admin.games.create');
+    Route::post('/games', [App\Http\Controllers\AdminGameController::class, 'store'])->name('admin.games.store');
+    Route::get('/games/{game}/edit', [App\Http\Controllers\AdminGameController::class, 'edit'])->name('admin.games.edit');
+    Route::put('/games/{game}', [App\Http\Controllers\AdminGameController::class, 'update'])->name('admin.games.update');
+    Route::delete('/games/{game}', [App\Http\Controllers\AdminGameController::class, 'destroy'])->name('admin.games.destroy');
+});

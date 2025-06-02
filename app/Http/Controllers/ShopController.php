@@ -12,7 +12,8 @@ class ShopController extends Controller
         $games = Game::query()
             ->when(request('genre'), fn($q, $genre) => $q->where('genre', $genre))
             ->when(request('search'), fn($q, $search) => $q->where('title', 'like', "%{$search}%"))
-            ->paginate(6);
+            ->latest()  // Добавьте сортировку
+            ->get();    // Замените paginate(6) на get()
 
         $genres = Game::distinct()->pluck('genre');
 
