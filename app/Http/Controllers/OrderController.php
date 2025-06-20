@@ -61,7 +61,7 @@ class OrderController extends Controller
         Activity::create([
             'user_id' => $user->id,
             'type' => 'level_up',
-            'description' => 'Достигнут новый уровень: ' . ($user->level + 1)
+            'description' => 'Достигнут новый уровень: ' . ($user->level)
         ]);
     }
 

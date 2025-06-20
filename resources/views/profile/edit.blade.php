@@ -25,7 +25,7 @@
             </div>
 
             <div class="form-group">
-                <label for="username">Имя пользователя</label>
+                <label for="username">Никнейм</label>
                 <input type="text" id="username" name="username" value="{{ old('username', auth()->user()->username) }}" required>
             </div>
 

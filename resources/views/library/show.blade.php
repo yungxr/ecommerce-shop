@@ -15,7 +15,7 @@
         </div>
 
         <div class="game-info">
-            <h1>{{ $game->title }}</h1>
+            <h1 class="color-txt">{{ $game->title }}</h1>
             <div class="meta">
                 <span class="developer">{{ $game->developer }}</span>
                 <span class="release-date">Дата выхода: {{ $game->release_date->format('d.m.Y') }}</span>

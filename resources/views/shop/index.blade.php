@@ -31,7 +31,7 @@
             <a href="{{ route('shop.show', $game) }}">
                 <img src="{{ asset('images/games/' . $game->image) }}" alt="{{ $game->title }}">
                 <div class="game-info">
-                    <h3>{{ $game->title }}</h3>
+                    <h3 class="color-txt">{{ $game->title }}</h3>
                     <span class="game-price">{{ number_format($game->price, 2, '.', ' ') }} руб.</span>
                     <span class="game-genre">{{ $game->genre }}</span>
                 </div>
