@@ -33,9 +33,12 @@ class ProfileController extends Controller
         $data = $request->only(['name', 'username', 'email']);
 
         if ($request->hasFile('avatar')) {
-            if ($user->avatar) {
+            // Удаляем старый аватар только если он не дефолтный
+            if ($user->avatar && !str_contains($user->avatar, 'default-avatar.png')) {
                 Storage::disk('public')->delete($user->avatar);
             }
+
+            // Сохраняем новый аватар
             $data['avatar'] = $request->file('avatar')->store('avatars', 'public');
         }
 

@@ -34,11 +34,24 @@
                     <h3 class="color-txt">{{ $game->title }}</h3>
                     <span class="game-price">{{ number_format($game->price, 2, '.', ' ') }} руб.</span>
                     <span class="game-genre">{{ $game->genre }}</span>
+                    
+                    <!-- Добавленный блок рейтинга -->
+                    @if($game->reviews->count() > 0)
+                    <div class="game-rating">
+                        <span class="rating-stars">
+                            {{ number_format($game->averageRating(), 1) }} ★
+                        </span>
+                        <span class="rating-count">({{ $game->reviews->count() }})</span>
+                    </div>
+                    @else
+                    <div class="game-rating no-reviews">
+                        Нет отзывов
+                    </div>
+                    @endif
                 </div>
             </a>
 
             <div class="game-actions">
-
                 <form action="{{ route('cart.add', $game) }}" method="POST">
                     @csrf
                     <button type="submit" class="btn-buy">В корзину</button>
@@ -47,7 +60,5 @@
         </div>
         @endforeach
     </div>
-
-    
 </div>
 @endsection

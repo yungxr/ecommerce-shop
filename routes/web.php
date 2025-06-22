@@ -60,3 +60,10 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->group(func
     Route::put('/games/{game}', [App\Http\Controllers\AdminGameController::class, 'update'])->name('admin.games.update');
     Route::delete('/games/{game}', [App\Http\Controllers\AdminGameController::class, 'destroy'])->name('admin.games.destroy');
 });
+
+Route::middleware('auth')->group(function () {
+    Route::get('/games/{game}/reviews/create', [App\Http\Controllers\ReviewController::class, 'create'])->name('reviews.create');
+    Route::get('/games/{game}', [App\Http\Controllers\GameController::class, 'show'])->name('games.show');
+    Route::post('/games/{game}/reviews', [App\Http\Controllers\ReviewController::class, 'store'])->name('reviews.store');
+    Route::delete('/reviews/{review}', [App\Http\Controllers\ReviewController::class, 'destroy'])->name('reviews.destroy');
+});

@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use App\Models\CartItem;
 use App\Models\LibraryItem;
 use App\Models\Game;
+use App\Models\Review;
 
 class User extends Authenticatable
 {
@@ -79,5 +80,11 @@ class User extends Authenticatable
     public function activities()
     {
         return $this->hasMany(Activity::class)->latest();
+    }
+
+    // User.php
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
     }
 }

@@ -4,7 +4,7 @@
 <div class="profile-container">
     <div class="profile-header" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
         <div class="profile-avatar">
-            <img src="{{ $user->avatar ? asset('storage/'.$user->avatar) : asset('images/default-avatar.png') }}" alt="Avatar">
+            <img src="{{ $user->avatar ? asset('storage/'.$user->avatar) : asset('images/') }}" alt="">
         </div>
         <div class="profile-info">
             <h1>{{ $user->username }}</h1>
