@@ -39,13 +39,6 @@
                 <span>Итого:</span>
                 <span class="total-price">{{ number_format($total, 2, '.', ' ') }} руб.</span>
             </div>
-            
-            {{-- Дублируем ошибку здесь (если нужно) --}}
-            @if(session('error'))
-                <div class="alert alert-danger" style="color: #721c24; background-color: #f8d7da; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
-                    {{ session('error') }}
-                </div>
-            @endif
 
             <form action="{{ route('order.checkout') }}" method="POST">
                 @csrf

@@ -23,20 +23,31 @@
                     <a href="/" class="nav__link active">Главная</a>
                     <a href="/shop" class="nav__link">Магазин</a>
                     <a href="/library" class="nav__link">Библиотека</a>
-                    
+
                     @auth
-                        @if(auth()->user()->role === 'admin')
-                            <a href="{{ route('admin.games.index') }}" class="nav__link">Админ-панель</a>
-                        @endif
+                    @if(auth()->user()->role === 'admin')
+                    <a href="{{ route('admin.games.index') }}" class="nav__link">Админ-панель</a>
+                    @endif
                     @endauth
-                    
-                    <a href="{{ route('cart.index') }}" class="cart-link">
-                        <i class="fas fa-shopping-cart"></i>
-                        @auth
-                        <span class="cart-count">{{ auth()->user()->cartItems()->count() }}</span>
-                        @endauth
+
+                    @auth
+                    <a href="{{ route('wishlist.index') }}" class="nav__link">
+                        <i class="fas fa-heart"></i> Вишлист
+                        @if(auth()->user()->wishlist()->count() > 0)
+                        <span class="wishlist-count">
+                            {{ auth()->user()->wishlist()->count() }}
+                        </span>
+                        @endif
                     </a>
+                    @endauth
                 </nav>
+
+                <a href="{{ route('cart.index') }}" class="cart-link">
+                    <i class="fas fa-shopping-cart"></i>
+                    @auth
+                    <span class="cart-count">{{ auth()->user()->cartItems()->count() }}</span>
+                    @endauth
+                </a>
 
                 <div class="user-menu">
                     <a href="{{ route('profile') }}" class="user-menu__link">

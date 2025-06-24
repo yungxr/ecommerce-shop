@@ -41,4 +41,9 @@ class Game extends Model
     {
         return $this->reviews()->avg('rating') ?? 0;
     }
+
+    public function wishlistedBy()
+    {
+        return $this->belongsToMany(User::class, 'wishlists');
+    }
 }

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->json('screenshots')->nullable();
             $table->date('release_date');
             $table->string('developer');
+            $table->json('system_requirements')->nullable();
             $table->timestamps();
         });
     }

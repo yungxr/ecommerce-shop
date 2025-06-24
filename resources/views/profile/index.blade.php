@@ -21,7 +21,7 @@
                     <span class="stat-label">Баланс</span>
                     <a href="{{ route('balance.topup') }}" class="btn-topup"
                         style="margin-left: 5px; padding: 3px 8px; 
-                  background: #2196F3; color: white; border-radius: 4px; 
+                  background: #5649c0; color: white; border-radius: 4px; 
                   font-size: 12px; text-decoration: none;">
                         <i class="fas fa-plus"></i> Пополнить
                     </a>
