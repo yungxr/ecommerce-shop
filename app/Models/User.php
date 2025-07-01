@@ -45,6 +45,11 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
+    public function isModerator(): bool
+    {
+        return $this->role === 'moderator';
+    }
+
     public function cartItems()
     {
         return $this->hasMany(CartItem::class);

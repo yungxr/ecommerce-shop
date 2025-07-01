@@ -22,7 +22,7 @@ return new class extends Migration
             $table->decimal('balance', 10, 2)->default(0.00);
             $table->integer('level')->default(1);
             $table->integer('experience')->default(0);
-            $table->enum('role', ['user', 'admin'])->default('user');
+            $table->enum('role', ['user', 'admin', 'moderator'])->default('user');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

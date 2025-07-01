@@ -31,6 +31,12 @@
                     @endauth
 
                     @auth
+                    @if(auth()->user()->role === 'moderator')
+                    <a href="{{ route('moderator.games.index') }}" class="nav__link">Мод-панель</a>
+                    @endif
+                    @endauth
+
+                    @auth
                     <a href="{{ route('wishlist.index') }}" class="nav__link">
                         <i class="fas fa-heart"></i> Вишлист
                         @if(auth()->user()->wishlist()->count() > 0)
