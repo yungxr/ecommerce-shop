@@ -27,7 +27,14 @@ class WishlistController extends Controller
 
     public function index()
     {
-        $games = auth()->user()->wishlistGames()->get();
+        $games = auth()->user()->wishlistGames()
+            ->with(['discounts' => function ($query) {
+                $query->where('is_active', true)
+                    ->where('start_date', '<=', now())
+                    ->where('end_date', '>=', now());
+            }])
+            ->get();
+
         return view('wishlist.index', compact('games'));
     }
 }

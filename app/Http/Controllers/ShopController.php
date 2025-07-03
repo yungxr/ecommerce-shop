@@ -9,14 +9,21 @@ class ShopController extends Controller
 {
     public function index()
     {
-        $games = Game::with(['discounts' => function ($query) {
-            $query->where('is_active', true)
-                ->where('start_date', '<=', now())
-                ->where('end_date', '>=', now());
-        }])
+        $games = Game::query()
+            ->when(request('discounts') === 'active', function ($query) {
+                $query->whereHas('discounts', function ($q) {
+                    $q->where('is_active', true)
+                        ->where('start_date', '<=', now())
+                        ->where('end_date', '>=', now());
+                });
+            })
             ->when(request('genre'), fn($q, $genre) => $q->where('genre', $genre))
             ->when(request('search'), fn($q, $search) => $q->where('title', 'like', "%{$search}%"))
-            ->latest()
+            ->with(['discounts' => function ($query) {
+                $query->where('is_active', true)
+                    ->where('start_date', '<=', now())
+                    ->where('end_date', '>=', now());
+            }])
             ->paginate(12);
 
         $genres = Game::distinct()->pluck('genre');

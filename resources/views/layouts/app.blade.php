@@ -32,7 +32,7 @@
 
                     @auth
                     @if(auth()->user()->role === 'moderator')
-                    <a href="{{ route('moderator.discounts.index') }}">Мод-панель</a>
+                    <a class="nav__link" href="{{ route('moderator.discounts.index') }}">Мод-панель</a>
                     @endif
                     @endauth
 

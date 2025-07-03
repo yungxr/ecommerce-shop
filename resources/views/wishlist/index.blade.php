@@ -22,7 +22,14 @@
             <a href="{{ route('shop.show', $game) }}" class="game-link">
                 <img src="{{ asset('images/games/' . $game->image) }}" alt="{{ $game->title }}">
                 <h3>{{ $game->title }}</h3>
+                @if($game->hasActiveDiscount())
+                <div class="price-with-discount">
+                    <span class="old-price">{{ number_format($game->price, 0, ',', ' ') }} ₽</span>
+                    <span class="new-price">{{ number_format($game->discounted_price, 0, ',', ' ') }} ₽</span>
+                </div>
+                @else
                 <span class="price">{{ number_format($game->price, 0, ',', ' ') }} ₽</span>
+                @endif
                 <span class="game-genre-wishlist">{{ $game->genre }}</span>
             </a>
             <div class="actions">
