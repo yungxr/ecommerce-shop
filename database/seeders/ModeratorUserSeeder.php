@@ -15,7 +15,7 @@ class ModeratorUserSeeder extends Seeder
             'username' => 'Moderator', 
             'email' => 'moderator@gamestore.com',
             'password' => Hash::make('moderator123'),
-            'role' => 'admin',
+            'role' => 'moderator',
             'email_verified_at' => now(),
             'balance' => 0,
             'avatar' => 'default-avatar.png'

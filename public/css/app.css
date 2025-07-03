@@ -1730,3 +1730,46 @@ textarea {
     background: #5649c0;
 }
 
+    /* Добавьте эти стили к существующим */
+    .discount-badge {
+        background: #ff4757;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        display: inline-block;
+    }
+    
+    .discount-percent {
+        font-weight: bold;
+        font-size: 1.2em;
+        margin-right: 10px;
+    }
+    
+    .price-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 5px;
+    }
+    
+    .old-price {
+        text-decoration: line-through;
+        color: #ccc;
+        font-size: 1em;
+    }
+    
+    .new-price {
+        color: #fff;
+        font-weight: bold;
+        font-size: 1.3em;
+    }
+    
+    .normal-price {
+        font-size: 1.5em;
+        font-weight: bold;
+        color: #fff;
+        margin-bottom: 10px;
+        display: inline-block;
+    }
+

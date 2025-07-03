@@ -46,4 +46,32 @@ class Game extends Model
     {
         return $this->belongsToMany(User::class, 'wishlists');
     }
+    public function discounts()
+    {
+        return $this->hasMany(Discount::class);
+    }
+
+    public function getDiscountedPriceAttribute()
+    {
+        $activeDiscount = $this->discounts()
+            ->where('is_active', true)
+            ->where('start_date', '<=', now())
+            ->where('end_date', '>=', now())
+            ->first();
+
+        if ($activeDiscount) {
+            return $this->price * (1 - $activeDiscount->percent / 100);
+        }
+
+        return $this->price;
+    }
+
+    public function hasActiveDiscount()
+    {
+        return $this->discounts()
+            ->where('is_active', true)
+            ->where('start_date', '<=', now())
+            ->where('end_date', '>=', now())
+            ->exists();
+    }
 }

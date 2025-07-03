@@ -32,9 +32,21 @@
                 <img src="{{ asset('images/games/' . $game->image) }}" alt="{{ $game->title }}">
                 <div class="game-info">
                     <h3 class="color-txt">{{ $game->title }}</h3>
+                    @if($game->hasActiveDiscount())
+                    <div class="game-price-with-discount">
+                        <span class="original-price">{{ number_format($game->price, 2, '.', ' ') }} руб.</span>
+                        <span class="discounted-price">{{ number_format($game->discounted_price, 2, '.', ' ') }} руб.</span>
+                    </div>
+                                    @if($game->hasActiveDiscount())
+                <div class="discount-ribbon">
+                    -{{ $game->discounts->where('is_active', true)->where('start_date', '<=', now())->where('end_date', '>=', now())->first()->percent }}%
+                </div>
+                @endif
+                    @else
                     <span class="game-price">{{ number_format($game->price, 2, '.', ' ') }} руб.</span>
+                    @endif
                     <span class="game-genre">{{ $game->genre }}</span>
-                    
+
                     <!-- Добавленный блок рейтинга -->
                     @if($game->reviews->count() > 0)
                     <div class="game-rating">
@@ -61,4 +73,26 @@
         @endforeach
     </div>
 </div>
+
+<style>
+    .game-price-with-discount {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+    }
+    .original-price {
+        text-decoration: line-through;
+        color: #999;
+        font-size: 0.9em;
+    }
+    .discounted-price {
+        color: #ff4757;
+        font-weight: bold;
+        font-size: 1.1em;
+    }
+    .game-price {
+        color: #fff;
+        font-weight: bold;
+    }
+</style>
 @endsection

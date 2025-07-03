@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="game-detail-container">
-    <!-- Ваш существующий код игры -->
     <div class="game-main">
         <div class="game-gallery">
             <div class="main-image">
@@ -28,42 +27,37 @@
             </div>
 
             <div class="price-block">
-                <form action="{{ route('cart.add', $game) }}" method="POST">
-                    @csrf
-                    <button type="submit" class="btn-buy">В корзину</button>
-                </form>
-                @auth
-                <form action="{{ route('wishlist.toggle', $game) }}" method="POST" class="price-block-form">
-                    @csrf
-                    <button type="submit" class="btn-wishlist">
-                        Добавить в желаемое{{ auth()->user()->wishlistGames->contains($game->id) ? '' : '' }}
-                    </button>
-                </form>
-                @endauth
+                @if($game->hasActiveDiscount())
+                @php
+                $activeDiscount = $game->discounts->where('is_active', true)
+                ->where('start_date', '<=', now())
+                    ->where('end_date', '>=', now())
+                    ->first();
+                    @endphp
+                    <div class="discount-badge">
+                        <span class="discount-percent">-{{ $activeDiscount->percent }}%</span>
+                        <div class="price-container">
+                            <span class="old-price">{{ number_format($game->price, 2, '.', ' ') }} руб.</span>
+                            <span class="new-price">{{ number_format($game->discounted_price, 2, '.', ' ') }} руб.</span>
+                        </div>
+                    </div>
+                    @else
+                    <span class="normal-price">{{ number_format($game->price, 2, '.', ' ') }} руб.</span>
+                    @endif
+
+                    <form action="{{ route('cart.add', $game) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn-buy">В корзину</button>
+                    </form>
+                    @auth
+                    <form action="{{ route('wishlist.toggle', $game) }}" method="POST" class="price-block-form">
+                        @csrf
+                        <button type="submit" class="btn-wishlist">
+                            Добавить в желаемое{{ auth()->user()->wishlistGames->contains($game->id) ? '' : '' }}
+                        </button>
+                    </form>
+                    @endauth
             </div>
-
-            <!-- <script>
-                function toggleWishlist(gameId) {
-                    fetch(`/wishlist/toggle/${gameId}`, {
-                            method: 'POST',
-                            headers: {
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                'Content-Type': 'application/json',
-                                'Accept': 'application/json'
-                            }
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            const btn = document.getElementById(`wishlist-btn-${gameId}`);
-                            if (data.status === 'added') {
-                                btn.innerHTML = '<i class="fas fa-heart"></i>';
-                            } else {
-                                btn.innerHTML = '<i class="fas fa-heart-o"></i>';
-                            }
-                        });
-                }
-            </script> -->
-
             <div class="description">
                 <h3>Описание</h3>
                 <p>{{ $game->description }}</p>

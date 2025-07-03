@@ -52,21 +52,32 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/balance/topup', [App\Http\Controllers\BalanceController::class, 'topup'])->name('balance.topup.submit');
 });
 
-// Модератор-роуты
-Route::middleware(['auth', ModeratorMiddleware::class])->prefix('moderator')->group(function () {
-        Route::get('/games', [App\Http\Controllers\AdminGameController::class, 'index'])->name('moderator.games.index');
-        
-    });
-
 // Админ-роуты
 Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->group(function () {
-        Route::get('/games', [App\Http\Controllers\AdminGameController::class, 'index'])->name('admin.games.index');
-        Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->group(function () {
+    Route::get('/games', [App\Http\Controllers\AdminGameController::class, 'index'])->name('admin.games.index');
+    Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->group(function () {
         Route::get('/games/create', [App\Http\Controllers\AdminGameController::class, 'create'])->name('admin.games.create');
         Route::post('/games', [App\Http\Controllers\AdminGameController::class, 'store'])->name('admin.games.store');
         Route::get('/games/{game}/edit', [App\Http\Controllers\AdminGameController::class, 'edit'])->name('admin.games.edit');
         Route::put('/games/{game}', [App\Http\Controllers\AdminGameController::class, 'update'])->name('admin.games.update');
         Route::delete('/games/{game}', [App\Http\Controllers\AdminGameController::class, 'destroy'])->name('admin.games.destroy');
+    });
+});
+
+// Moderator routes
+Route::middleware(['auth', ModeratorMiddleware::class])->prefix('moderator')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('moderator.dashboard');
+    })->name('moderator.dashboard');
+
+    Route::prefix('discounts')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Moderator\DiscountController::class, 'index'])->name('moderator.discounts.index');
+        Route::get('/create', [\App\Http\Controllers\Moderator\DiscountController::class, 'create'])->name('moderator.discounts.create');
+        Route::post('/', [\App\Http\Controllers\Moderator\DiscountController::class, 'store'])->name('moderator.discounts.store');
+        Route::get('/{discount}/edit', [\App\Http\Controllers\Moderator\DiscountController::class, 'edit'])->name('moderator.discounts.edit');
+        Route::put('/{discount}', [\App\Http\Controllers\Moderator\DiscountController::class, 'update'])->name('moderator.discounts.update');
+        Route::delete('/{discount}', [\App\Http\Controllers\Moderator\DiscountController::class, 'destroy'])->name('moderator.discounts.destroy');
+        Route::post('/{discount}/toggle', [\App\Http\Controllers\Moderator\DiscountController::class, 'toggle'])->name('moderator.discounts.toggle');
     });
 });
 
