@@ -29,7 +29,7 @@
                             <span class="timer-hours">00</span>:<span class="timer-minutes">00</span>:<span class="timer-seconds">00</span>
                         </div>
                     </div>
-                    <img src="{{ asset('images/games/' . $game->image) }}" alt="{{ $game->title }}" class="discount-card__image">
+                    <img src="{{ asset($game->image) }}" alt="{{ $game->title }}" class="discount-card__image">
                     <div class="discount-card__info">
                         <h3 class="discount-card__title">{{ $game->title }}</h3>
                         <div class="discount-card__prices">
@@ -44,7 +44,7 @@
             @endforelse
         </div>
     </div>
-    </style>
+    </section>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

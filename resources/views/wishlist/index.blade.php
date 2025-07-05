@@ -20,7 +20,7 @@
         @foreach($games as $game)
         <div class="wishlist-game">
             <a href="{{ route('shop.show', $game) }}" class="game-link">
-                <img src="{{ asset('images/games/' . $game->image) }}" alt="{{ $game->title }}">
+                <img src="{{ asset($game->image) }}" alt="{{ $game->title }}">
                 <h3>{{ $game->title }}</h3>
                 @if($game->hasActiveDiscount())
                 <div class="price-with-discount">

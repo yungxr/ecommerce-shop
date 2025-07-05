@@ -20,7 +20,7 @@
     <div class="cart-items">
         @foreach($cartItems as $item)
         <div class="cart-item">
-            <img src="{{ asset('images/games/' . $item->game->image) }}" alt="{{ $item->game->title }}">
+            <img src="{{ asset($item->game->image) }}" alt="{{ $item->game->title }}">
             <div class="cart-item-info">
                 <h3>{{ $item->game->title }}</h3>
                 @if($item->game->hasActiveDiscount())

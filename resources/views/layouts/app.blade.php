@@ -20,7 +20,7 @@
                 </a>
 
                 <nav class="nav">
-                    <a href="/" class="nav__link active">Главная</a>
+                    <a href="/" class="nav__link">Главная</a>
                     <a href="/shop" class="nav__link">Магазин</a>
                     <a href="/library" class="nav__link">Библиотека</a>
 

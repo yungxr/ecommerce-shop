@@ -870,7 +870,6 @@ body {
 
 .site-content {
     flex: 1;
-    padding-bottom: 40px; /* Отступ от футера */
 }
 
 /* Существующие стили футера (дополняем) */
@@ -1356,9 +1355,23 @@ textarea {
 }
 
 /* Формы */
-.admin-form-container {
+
+.admin-form-container-flex {
+    display: flex;
+    justify-content: center;
+}
+
+.admin-form-container-first {
     max-width: 800px;
-    margin: 20px auto;
+    margin: 20px;
+    padding: 20px;
+    background: #1a1a2e;
+    border-radius: 8px;
+}
+
+.admin-form-container-second {
+    max-width: 800px;
+    margin: 20px;
     padding: 20px;
     background: #1a1a2e;
     border-radius: 8px;

@@ -15,31 +15,33 @@ class LibraryController extends Controller
 
     public function show(Game $game)
     {
-        if (!auth()->user()->libraryGames()->where('game_id', $game->id)->exists()) {
-            abort(403);
-        }
-
-        $screenshots = json_decode($game->screenshots, true) ?? [];
-
-        return view('library.show', [
-            'game' => $game,
-            'screenshots' => $screenshots,
-            'purchased_at' => auth()->user()->libraryItems()
-                ->where('game_id', $game->id)
-                ->first()
-                ->created_at
-        ]);
-
+        // Проверка доступа к игре
         if (!auth()->user()->libraryGames()->where('game_id', $game->id)->exists()) {
             abort(403, 'Эта игра не находится в вашей библиотеке');
         }
 
-        return view('library.game', [
+        // Получаем дату покупки
+        $purchasedAt = auth()->user()->libraryItems()
+            ->where('game_id', $game->id)
+            ->first()
+            ->created_at;
+
+        // Обрабатываем скриншоты
+        $screenshots = $game->screenshots;
+        if (is_string($screenshots)) {
+            try {
+                $screenshots = json_decode($screenshots, true) ?? [];
+            } catch (\Exception $e) {
+                $screenshots = [];
+            }
+        } elseif (!is_array($screenshots)) {
+            $screenshots = [];
+        }
+
+        return view('library.show', [
             'game' => $game,
-            'purchased_at' => auth()->user()->libraryItems()
-                ->where('game_id', $game->id)
-                ->first()
-                ->created_at
+            'screenshots' => $screenshots,
+            'purchased_at' => $purchasedAt
         ]);
     }
 }

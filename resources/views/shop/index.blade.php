@@ -29,7 +29,11 @@
         @foreach($games as $game)
         <div class="game-card">
             <a href="{{ route('shop.show', $game) }}">
-                <img src="{{ asset('images/games/' . $game->image) }}" alt="{{ $game->title }}">
+                @if($game->image && file_exists(public_path($game->image)))
+                    <img src="{{ asset($game->image) }}" alt="{{ $game->title }}">
+                @else
+                    <img src="{{ asset('images/games/default.jpg') }}" alt="Изображение отсутствует">
+                @endif
                 <div class="game-info">
                     <h3 class="color-txt">{{ $game->title }}</h3>
                     @if($game->hasActiveDiscount())
@@ -37,17 +41,16 @@
                         <span class="original-price">{{ number_format($game->price, 2, '.', ' ') }} руб.</span>
                         <span class="discounted-price">{{ number_format($game->discounted_price, 2, '.', ' ') }} руб.</span>
                     </div>
-                                    @if($game->hasActiveDiscount())
-                <div class="discount-ribbon">
-                    -{{ $game->discounts->where('is_active', true)->where('start_date', '<=', now())->where('end_date', '>=', now())->first()->percent }}%
-                </div>
-                @endif
+                    @if($game->hasActiveDiscount())
+                    <div class="discount-ribbon">
+                        -{{ $game->discounts->where('is_active', true)->where('start_date', '<=', now())->where('end_date', '>=', now())->first()->percent }}%
+                    </div>
+                    @endif
                     @else
                     <span class="game-price">{{ number_format($game->price, 2, '.', ' ') }} руб.</span>
                     @endif
                     <span class="game-genre">{{ $game->genre }}</span>
 
-                    <!-- Добавленный блок рейтинга -->
                     @if($game->reviews->count() > 0)
                     <div class="game-rating">
                         <span class="rating-stars">

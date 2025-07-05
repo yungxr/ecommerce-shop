@@ -10,10 +10,12 @@ class CartController extends Controller
 {
     public function index()
     {
-        $cartItems = auth()->user()->cartItems()->with(['game.discounts' => function ($query) {
-            $query->where('is_active', true)
-                ->where('start_date', '<=', now())
-                ->where('end_date', '>=', now());
+        $cartItems = auth()->user()->cartItems()->with(['game' => function($query) {
+            $query->with(['discounts' => function($q) {
+                $q->where('is_active', true)
+                  ->where('start_date', '<=', now())
+                  ->where('end_date', '>=', now());
+            }]);
         }])->get();
 
         $total = $cartItems->sum(function ($item) {

@@ -1,113 +1,163 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="admin-form-container">
-    <h1 class="color">Добавить игру</h1>
+<div class="container py-4">
+    <h1 class="mb-4">Add New Game</h1>
 
     <form action="{{ route('admin.games.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
-        <div class="form-group">
-            <label for="title">Название</label>
-            <input type="text" name="title" id="title" class="@error('title') is-invalid @enderror" value="{{ old('title') }}" required placeholder="Введите название игры">
-            @error('title')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Game Title</label>
+                            <input type="text" class="form-control" id="title" name="title" required>
+                        </div>
 
-        <div class="form-group">
-            <label for="description">Описание</label>
-            <textarea name="description" id="description" rows="5" class="@error('description') is-invalid @enderror" required placeholder="Введите описание игры">{{ old('description') }}</textarea>
-            @error('description')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="5" required></textarea>
+                        </div>
 
-        <div class="form-row">
-            <div class="form-group">
-                <label for="price">Цена (руб.)</label>
-                <input type="number" step="0.01" name="price" id="price" class="@error('price') is-invalid @enderror" value="{{ old('price') }}" required placeholder="0.00">
-                @error('price')
-                <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="price" class="form-label">Price ($)</label>
+                                <input type="number" step="0.01" class="form-control" id="price" name="price" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="genre" class="form-label">Genre</label>
+                                <input type="text" class="form-control" id="genre" name="genre" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Cover Image</label>
+                            <input type="file" class="form-control" id="image" name="image" required>
+                            <div id="imagePreview" class="mt-2"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="screenshots" class="form-label">Screenshots (Multiple)</label>
+                            <input type="file" class="form-control" id="screenshots" name="screenshots[]" multiple>
+                            <div id="screenshotsPreview" class="d-flex flex-wrap mt-2"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="genre">Жанр</label>
-                <input type="text" name="genre" id="genre" class="@error('genre') is-invalid @enderror" value="{{ old('genre') }}" required placeholder="Укажите жанр">
-                @error('genre')
-                <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
+
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="release_date" class="form-label">Release Date</label>
+                            <input type="date" class="form-control" id="release_date" name="release_date" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="developer" class="form-label">Developer</label>
+                            <input type="text" class="form-control" id="developer" name="developer" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">System Requirements</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Minimum</h5>
+                        <div class="mb-3">
+                            <label for="min_os" class="form-label">OS</label>
+                            <input type="text" class="form-control" id="min_os" name="min_os" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="min_processor" class="form-label">Processor</label>
+                            <input type="text" class="form-control" id="min_processor" name="min_processor" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="min_memory" class="form-label">Memory</label>
+                            <input type="text" class="form-control" id="min_memory" name="min_memory" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="min_graphics" class="form-label">Graphics</label>
+                            <input type="text" class="form-control" id="min_graphics" name="min_graphics" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="min_storage" class="form-label">Storage</label>
+                            <input type="text" class="form-control" id="min_storage" name="min_storage" required>
+                        </div>
+
+                        <h5 class="card-title mt-4">Recommended</h5>
+                        <div class="mb-3">
+                            <label for="rec_os" class="form-label">OS</label>
+                            <input type="text" class="form-control" id="rec_os" name="rec_os" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="rec_processor" class="form-label">Processor</label>
+                            <input type="text" class="form-control" id="rec_processor" name="rec_processor" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="rec_memory" class="form-label">Memory</label>
+                            <input type="text" class="form-control" id="rec_memory" name="rec_memory" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="rec_graphics" class="form-label">Graphics</label>
+                            <input type="text" class="form-control" id="rec_graphics" name="rec_graphics" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="rec_storage" class="form-label">Storage</label>
+                            <input type="text" class="form-control" id="rec_storage" name="rec_storage" required>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="image">Обложка</label>
-            <input type="file" name="image" id="image" accept="image/*" class="@error('image') is-invalid @enderror" required onchange="previewImage(this)">
-            @error('image')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-            <img id="imagePreview" src="#" alt="Предварительный просмотр" style="max-width: 200px; display: none;">
-        </div>
-
-        <div class="form-group">
-            <label for="screenshots">Скриншоты (можно несколько)</label>
-            <input type="file" name="screenshots[]" id="screenshots" multiple accept="image/*" class="@error('screenshots') is-invalid @enderror" onchange="previewScreenshots(this)">
-            @error('screenshots')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-            <div id="screenshotsPreview"></div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="release_date">Дата выхода</label>
-                <input type="date" name="release_date" id="release_date" class="@error('release_date') is-invalid @enderror" value="{{ old('release_date') }}" required>
-                @error('release_date')
-                <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-            <div class="form-group">
-                <label for="developer">Разработчик</label>
-                <input type="text" name="developer" id="developer" class="@error('developer') is-invalid @enderror" value="{{ old('developer') }}" required placeholder="Укажите разработчика">
-                @error('developer')
-                <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-
-        <button type="submit" class="btn-submit">Сохранить</button>
+        <button type="submit" class="btn btn-primary">Save Game</button>
     </form>
 </div>
 
 <script>
-    function previewImage(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('imagePreview').src = e.target.result;
-                document.getElementById('imagePreview').style.display = 'block';
+document.addEventListener('DOMContentLoaded', function() {
+    // Cover image preview
+    const imageInput = document.getElementById('image');
+    if (imageInput) {
+        imageInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('imagePreview');
+                    preview.innerHTML = `
+                        <img src="${e.target.result}" class="img-thumbnail" style="max-height: 200px;">
+                    `;
+                }
+                reader.readAsDataURL(file);
             }
-            reader.readAsDataURL(input.files[0]);
-        }
+        });
     }
 
-    function previewScreenshots(input) {
-        let preview = document.getElementById('screenshotsPreview');
-        preview.innerHTML = ''; // Clear existing previews
+    // Screenshots preview
+    const screenshotsInput = document.getElementById('screenshots');
+    if (screenshotsInput) {
+        screenshotsInput.addEventListener('change', function(e) {
+            const files = e.target.files;
+            const preview = document.getElementById('screenshotsPreview');
+            preview.innerHTML = '';
 
-        if (input.files) {
-            for (let i = 0; i < input.files.length; i++) {
-                let reader = new FileReader();
+            for (let i = 0; i < files.length; i++) {
+                const reader = new FileReader();
                 reader.onload = function(e) {
-                    let img = document.createElement('img');
+                    const img = document.createElement('img');
                     img.src = e.target.result;
-                    img.style.maxWidth = '100px';
-                    img.style.marginRight = '5px';
+                    img.className = 'img-thumbnail mr-2 mb-2';
+                    img.style.maxHeight = '100px';
                     preview.appendChild(img);
                 }
-                reader.readAsDataURL(input.files[i]);
+                reader.readAsDataURL(files[i]);
             }
-        }
+        });
     }
+});
 </script>
 @endsection

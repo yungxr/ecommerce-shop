@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminGameController;
+use App\Http\Controllers\Admin\GameController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\ModeratorMiddleware;
 
@@ -52,16 +52,14 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/balance/topup', [App\Http\Controllers\BalanceController::class, 'topup'])->name('balance.topup.submit');
 });
 
-// Админ-роуты
-Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->group(function () {
-    Route::get('/games', [App\Http\Controllers\AdminGameController::class, 'index'])->name('admin.games.index');
-    Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->group(function () {
-        Route::get('/games/create', [App\Http\Controllers\AdminGameController::class, 'create'])->name('admin.games.create');
-        Route::post('/games', [App\Http\Controllers\AdminGameController::class, 'store'])->name('admin.games.store');
-        Route::get('/games/{game}/edit', [App\Http\Controllers\AdminGameController::class, 'edit'])->name('admin.games.edit');
-        Route::put('/games/{game}', [App\Http\Controllers\AdminGameController::class, 'update'])->name('admin.games.update');
-        Route::delete('/games/{game}', [App\Http\Controllers\AdminGameController::class, 'destroy'])->name('admin.games.destroy');
-    });
+// Admin routes
+Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/games', [GameController::class, 'index'])->name('games.index');
+    Route::get('/games/create', [GameController::class, 'create'])->name('games.create');
+    Route::post('/games', [GameController::class, 'store'])->name('games.store');
+    Route::get('/games/{game}/edit', [GameController::class, 'edit'])->name('games.edit');
+    Route::put('/games/{game}', [GameController::class, 'update'])->name('games.update');
+    Route::delete('/games/{game}', [GameController::class, 'destroy'])->name('games.destroy');
 });
 
 // Moderator routes

@@ -65,7 +65,7 @@
                     @foreach($user->libraryGames as $game)
                     <div class="game-card">
                         <a href="{{ route('library.show', $game) }}">
-                            <img src="{{ asset('images/games/' . $game->image) }}" alt="{{ $game->title }}">
+                            <img src="{{ asset($game->image) }}" alt="{{ $game->title }}">
                             <div class="game-info">
                                 <h3>{{ $game->title }}</h3>
                                 <span class="game-date">Приобретено: {{ $game->pivot->created_at->format('d.m.Y') }}</span>

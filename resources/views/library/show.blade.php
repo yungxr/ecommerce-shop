@@ -5,12 +5,22 @@
     <div class="game-main">
         <div class="game-gallery">
             <div class="main-image">
-                <img src="{{ asset('images/games/' . $game->image) }}" alt="{{ $game->title }}">
+                @if($game->image)
+                    <img src="{{ asset($game->image) }}" alt="{{ $game->title }}">
+                @else
+                    <img src="{{ asset('images/games/default.jpg') }}" alt="Изображение отсутствует">
+                @endif
             </div>
             <div class="screenshots">
-                @foreach($screenshots as $screenshot)
-                <img src="{{ asset('images/games/screenshots/' . $screenshot) }}" alt="Скриншот">
-                @endforeach
+                @if(count($screenshots) > 0)
+                    @foreach($screenshots as $screenshot)
+                        @if($screenshot)
+                            <img src="{{ asset($screenshot) }}" alt="Скриншот">
+                        @endif
+                    @endforeach
+                @else
+                    <p>Скриншотов нет</p>
+                @endif
             </div>
         </div>
 

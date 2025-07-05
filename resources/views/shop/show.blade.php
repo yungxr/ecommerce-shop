@@ -5,15 +5,26 @@
     <div class="game-main">
         <div class="game-gallery">
             <div class="main-image">
-                <img src="{{ asset('images/games/' . $game->image) }}" alt="{{ $game->title }}">
+                @if($game->image && file_exists(public_path($game->image)))
+                    <img src="{{ asset($game->image) }}" alt="{{ $game->title }}">
+                @else
+                    <img src="{{ asset('images/games/default.jpg') }}" alt="Изображение отсутствует">
+                @endif
             </div>
             <div class="screenshots">
-                @if($game->screenshots)
-                @foreach(json_decode($game->screenshots, true) as $screenshot)
-                <img src="{{ asset('images/games/screenshots/' . $screenshot) }}" alt="Скриншот">
-                @endforeach
+                @php
+                    $screenshots = is_array($game->screenshots) ? $game->screenshots : [];
+                    $screenshots = array_filter($screenshots);
+                @endphp
+
+                @if(count($screenshots) > 0)
+                    @foreach($screenshots as $screenshot)
+                        @if(file_exists(public_path($screenshot)))
+                            <img src="{{ asset($screenshot) }}" alt="Скриншот игры">
+                        @endif
+                    @endforeach
                 @else
-                <p>Скриншотов нет</p>
+                    <p>Скриншотов нет</p>
                 @endif
             </div>
         </div>
@@ -28,11 +39,11 @@
 
             <div class="price-block">
                 @if($game->hasActiveDiscount())
-                @php
-                $activeDiscount = $game->discounts->where('is_active', true)
-                ->where('start_date', '<=', now())
-                    ->where('end_date', '>=', now())
-                    ->first();
+                    @php
+                        $activeDiscount = $game->discounts->where('is_active', true)
+                            ->where('start_date', '<=', now())
+                            ->where('end_date', '>=', now())
+                            ->first();
                     @endphp
                     <div class="discount-badge">
                         <span class="discount-percent">-{{ $activeDiscount->percent }}%</span>
@@ -41,22 +52,22 @@
                             <span class="new-price">{{ number_format($game->discounted_price, 2, '.', ' ') }} руб.</span>
                         </div>
                     </div>
-                    @else
+                @else
                     <span class="normal-price">{{ number_format($game->price, 2, '.', ' ') }} руб.</span>
-                    @endif
+                @endif
 
-                    <form action="{{ route('cart.add', $game) }}" method="POST">
-                        @csrf
-                        <button type="submit" class="btn-buy">В корзину</button>
-                    </form>
-                    @auth
-                    <form action="{{ route('wishlist.toggle', $game) }}" method="POST" class="price-block-form">
-                        @csrf
-                        <button type="submit" class="btn-wishlist">
-                            Добавить в желаемое{{ auth()->user()->wishlistGames->contains($game->id) ? '' : '' }}
-                        </button>
-                    </form>
-                    @endauth
+                <form action="{{ route('cart.add', $game) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn-buy">В корзину</button>
+                </form>
+                @auth
+                <form action="{{ route('wishlist.toggle', $game) }}" method="POST" class="price-block-form">
+                    @csrf
+                    <button type="submit" class="btn-wishlist">
+                        Добавить в желаемое{{ auth()->user()->wishlistGames->contains($game->id) ? '' : '' }}
+                    </button>
+                </form>
+                @endauth
             </div>
             <div class="description">
                 <h3>Описание</h3>
@@ -66,87 +77,50 @@
     </div>
 
     <div class="system-requirements">
-        <h3 class="color">Системные требования</h3>
+        @php
+            $requirements = is_array($game->system_requirements) ? $game->system_requirements : [
+                'minimum' => [
+                    'os' => 'Не указано',
+                    'processor' => 'Не указано',
+                    'memory' => 'Не указано',
+                    'graphics' => 'Не указано',
+                    'storage' => 'Не указано'
+                ],
+                'recommended' => [
+                    'os' => 'Не указано',
+                    'processor' => 'Не указано',
+                    'memory' => 'Не указано',
+                    'graphics' => 'Не указано',
+                    'storage' => 'Не указано'
+                ]
+            ];
+        @endphp
 
+        <h3 class="color">Системные требования</h3>
         <div class="requirements-grid">
             <div class="requirements-minimum">
                 <h4>Минимальные</h4>
                 <ul>
-                    <li><strong>ОС:</strong> {{ json_decode($game->system_requirements)->minimum->os }}</li>
-                    <li><strong>Процессор:</strong> {{ json_decode($game->system_requirements)->minimum->processor }}</li>
-                    <li><strong>Память:</strong> {{ json_decode($game->system_requirements)->minimum->memory }}</li>
-                    <li><strong>Видеокарта:</strong> {{ json_decode($game->system_requirements)->minimum->graphics }}</li>
-                    <li><strong>Место на диске:</strong> {{ json_decode($game->system_requirements)->minimum->storage }}</li>
+                    <li><strong>ОС:</strong> {{ $requirements['minimum']['os'] }}</li>
+                    <li><strong>Процессор:</strong> {{ $requirements['minimum']['processor'] }}</li>
+                    <li><strong>Память:</strong> {{ $requirements['minimum']['memory'] }}</li>
+                    <li><strong>Видеокарта:</strong> {{ $requirements['minimum']['graphics'] }}</li>
+                    <li><strong>Место на диске:</strong> {{ $requirements['minimum']['storage'] }}</li>
                 </ul>
             </div>
-
             <div class="requirements-recommended">
                 <h4>Рекомендуемые</h4>
                 <ul>
-                    <li><strong>ОС:</strong> {{ json_decode($game->system_requirements)->recommended->os }}</li>
-                    <li><strong>Процессор:</strong> {{ json_decode($game->system_requirements)->recommended->processor }}</li>
-                    <li><strong>Память:</strong> {{ json_decode($game->system_requirements)->recommended->memory }}</li>
-                    <li><strong>Видеокарта:</strong> {{ json_decode($game->system_requirements)->recommended->graphics }}</li>
-                    <li><strong>Место на диске:</strong> {{ json_decode($game->system_requirements)->recommended->storage }}</li>
+                    <li><strong>ОС:</strong> {{ $requirements['recommended']['os'] }}</li>
+                    <li><strong>Процессор:</strong> {{ $requirements['recommended']['processor'] }}</li>
+                    <li><strong>Память:</strong> {{ $requirements['recommended']['memory'] }}</li>
+                    <li><strong>Видеокарта:</strong> {{ $requirements['recommended']['graphics'] }}</li>
+                    <li><strong>Место на диске:</strong> {{ $requirements['recommended']['storage'] }}</li>
                 </ul>
             </div>
         </div>
     </div>
 
-    <style>
-        .color {
-            color: #fff;
-        }
-
-        .system-requirements {
-            margin-top: 30px;
-            padding: 20px;
-            background: #2d3436;
-            border-radius: 8px;
-        }
-
-        .requirements-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .requirements-minimum,
-        .requirements-recommended {
-            padding: 15px;
-            background: #25292b;
-            border-radius: 6px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .system-requirements h3 {
-            margin-bottom: 15px;
-            color: #fff;
-        }
-
-        .system-requirements h4 {
-            margin-bottom: 10px;
-            color: #fff;
-        }
-
-        .system-requirements ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .system-requirements li {
-            margin-bottom: 8px;
-            color: #fff;
-        }
-
-        @media (max-width: 768px) {
-            .requirements-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-
-    <!-- Блок отзывов -->
     <div class="reviews-section">
         <div class="reviews-header">
             <h3 class="reviews-title">Отзывы <span class="reviews-count">({{ $game->reviews->count() }})</span></h3>
@@ -161,7 +135,6 @@
             @endauth
         </div>
 
-        <!-- Форма отзыва (изначально скрыта) -->
         @auth
         <div id="review-form-container" style="display: none; margin-top: 20px;">
             <form action="{{ route('reviews.store', $game) }}" method="POST" class="review-form">
@@ -218,8 +191,8 @@
                     </form>
                     @endif
                 </div>
-                @endforeach
             </div>
+            @endforeach
         </div>
     </div>
 </div>
