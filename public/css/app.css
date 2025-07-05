@@ -1960,3 +1960,7 @@ textarea {
             }
         }
 
+        .system-requirements {
+            display: flex;
+        }
+
